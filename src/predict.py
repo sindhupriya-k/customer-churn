@@ -1,0 +1,44 @@
+import joblib
+import pandas as pd
+
+from config import MODEL_PATH
+
+
+model_pipeline = joblib.load(MODEL_PATH)
+
+sample_customer = pd.DataFrame(
+    [
+        {
+            "gender": "Female",
+            "SeniorCitizen": 0,
+            "Partner": "Yes",
+            "Dependents": "No",
+            "tenure": 1,
+            "PhoneService": "No",
+            "MultipleLines": "No phone service",
+            "InternetService": "DSL",
+            "OnlineSecurity": "No",
+            "OnlineBackup": "Yes",
+            "DeviceProtection": "No",
+            "TechSupport": "No",
+            "StreamingTV": "No",
+            "StreamingMovies": "No",
+            "Contract": "Month-to-month",
+            "PaperlessBilling": "Yes",
+            "PaymentMethod": "Electronic check",
+            "MonthlyCharges": 29.85,
+            "TotalCharges": 29.85,
+        }
+    ]
+)
+
+prediction = model_pipeline.predict(sample_customer)[0]
+probability = model_pipeline.predict_proba(sample_customer)[0][1]
+
+print("Prediction:", prediction)
+print("Churn probability:", round(probability * 100, 2), "%")
+
+if prediction == 1:
+    print("Result: Customer is likely to churn")
+else:
+    print("Result: Customer is not likely to churn")
