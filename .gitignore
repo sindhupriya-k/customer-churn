@@ -5,3 +5,9 @@ __pycache__/
 
 data/raw/*.csv
 models/*.joblib
+database/
+sql/
+reports/dashboard/
+reports/figures/sql_contract_churn_output.png
+src/create_database.py
+src/export_dashboard_data.py

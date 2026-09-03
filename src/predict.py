@@ -4,8 +4,6 @@ import pandas as pd
 from config import MODEL_PATH
 
 
-model_pipeline = joblib.load(MODEL_PATH)
-
 sample_customer = pd.DataFrame(
     [
         {
@@ -32,13 +30,19 @@ sample_customer = pd.DataFrame(
     ]
 )
 
-prediction = model_pipeline.predict(sample_customer)[0]
-probability = model_pipeline.predict_proba(sample_customer)[0][1]
 
-print("Prediction:", prediction)
-print("Churn probability:", round(probability * 100, 2), "%")
+def main():
+    model_pipeline = joblib.load(MODEL_PATH)
 
-if prediction == 1:
-    print("Result: Customer is likely to churn")
-else:
-    print("Result: Customer is not likely to churn")
+    prediction = model_pipeline.predict(sample_customer)[0]
+    churn_probability = model_pipeline.predict_proba(sample_customer)[0][1]
+
+    result = "Customer is likely to churn" if prediction == 1 else "Customer is not likely to churn"
+
+    print("Prediction:", prediction)
+    print("Churn probability:", f"{churn_probability * 100:.2f}%")
+    print("Result:", result)
+
+
+if __name__ == "__main__":
+    main()

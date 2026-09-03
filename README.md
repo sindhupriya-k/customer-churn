@@ -1,57 +1,119 @@
-# Customer Churn Prediction
+# Customer Churn Prediction Using Machine Learning
 
-This project predicts whether a telecom customer is likely to churn using machine learning.
+A machine learning project that predicts whether a telecom customer is likely to churn. The project includes data cleaning, exploratory data analysis, preprocessing pipelines, model training, evaluation, model saving, and a sample prediction script.
 
 ## Problem Statement
 
-Customer churn means a customer stops using a company's service. The goal of this project is to predict churn so that a company can identify risky customers early and take retention actions.
+Customer churn happens when a customer stops using a company's service. The goal of this project is to identify customers who are likely to churn so the business can take early retention actions such as offers, support calls, or plan changes.
 
 ## Dataset
 
-Dataset used: Telco Customer Churn dataset.
+Dataset used: Telco Customer Churn dataset
 
-- Rows: 7043
+- Rows: 7,043
 - Columns: 21
 - Target column: `Churn`
+- Churned customers: 1,869
+- Overall churn rate: 26.54%
 
-The dataset file is not included in this repository. Place it here before running the project:
+The dataset is not included in this repository. Place it here before running the project:
 
 ```text
 data/raw/customer_churn.csv
 ```
 
-## Technologies Used
+## Tools And Libraries
 
 - Python
 - pandas
 - NumPy
 - matplotlib
+- seaborn
 - scikit-learn
 - joblib
 - Git and GitHub
 
-## Project Workflow
+## Project Structure
+
+```text
+customer churn/
+|-- data/
+|   |-- raw/
+|-- models/
+|-- reports/
+|   |-- figures/
+|   |-- feature_importance.csv
+|   |-- model_evaluation.md
+|   |-- model_metrics.json
+|-- src/
+|   |-- check_data.py
+|   |-- config.py
+|   |-- eda.py
+|   |-- predict.py
+|   |-- train.py
+|-- README.md
+|-- requirements.txt
+|-- summary.md
+```
+
+## Machine Learning Workflow
 
 1. Loaded the customer churn dataset.
-2. Checked shape, columns, missing values, and data types.
+2. Inspected columns, data types, target distribution, and missing values.
 3. Converted `TotalCharges` from text to numeric.
-4. Performed exploratory data analysis.
-5. Split data into training and testing sets.
-6. Built preprocessing pipelines for numeric and categorical columns.
-7. Trained a Logistic Regression model.
-8. Evaluated the model using accuracy, ROC-AUC, confusion matrix, precision, recall, and F1-score.
+4. Split the data into training and testing sets using stratified sampling.
+5. Separated numerical and categorical features.
+6. Built preprocessing pipelines for missing value handling, scaling, and one-hot encoding.
+7. Trained a Logistic Regression model with balanced class weights.
+8. Evaluated the model using accuracy, precision, recall, F1-score, ROC-AUC, and confusion matrix.
 9. Saved the trained model using joblib.
-10. Created a prediction script for new customer data.
+10. Created a prediction script to score a new customer.
 
 ## EDA Insights
 
-- Churn rate is around 26.54%.
-- Month-to-month contract customers have the highest churn.
-- Electronic check customers have the highest churn by payment method.
-- Fiber optic customers show higher churn than DSL customers.
+- The dataset has an imbalanced target variable, with churn around 26.54%.
+- Month-to-month contract customers show higher churn risk.
+- Electronic check customers have higher churn compared with other payment methods.
 - Customers with shorter tenure are more likely to churn.
 - Customers with higher monthly charges are more likely to churn.
-- Customers without tech support are more likely to churn.
+- Customers without tech support show higher churn risk.
+
+## EDA Visuals
+
+Churn distribution:
+
+![Customer Churn Count](reports/figures/churn_count.png)
+
+Churn by contract type:
+
+![Churn by Contract](reports/figures/churn_by_contract.png)
+
+Churn by payment method:
+
+![Churn by Payment Method](reports/figures/churn_by_payment_method.png)
+
+Tenure distribution by churn:
+
+![Tenure Distribution by Churn](reports/figures/tenure_distribution_by_churn.png)
+
+## Model
+
+The project uses Logistic Regression as the baseline model.
+
+Why Logistic Regression was chosen:
+
+- Suitable for binary classification
+- Easy to explain in interviews
+- Works well as a strong baseline model
+- Model coefficients can help understand important churn drivers
+
+The model pipeline includes:
+
+- Median imputation for numerical features
+- Standard scaling for numerical features
+- Most-frequent imputation for categorical features
+- One-hot encoding for categorical features
+- Logistic Regression classifier
 
 ## Model Results
 
@@ -61,24 +123,37 @@ Logistic Regression results:
 - ROC-AUC: 84.1%
 - Churn recall: 78%
 
-The model is useful because it identifies many customers who are likely to churn.
+The model is useful for retention campaigns because recall is important in churn prediction. A higher churn recall means the model can identify many customers who are actually likely to churn.
 
-## How to Run
+After running `src/train.py`, the project also creates:
 
-Clone the repository:
-
-```powershell
-git clone https://github.com/sindhupriya-k/customer-churn.git
-cd customer-churn
+```text
+reports/model_metrics.json
+reports/model_evaluation.md
+reports/feature_importance.csv
+models/churn_model.joblib
 ```
 
-Create virtual environment:
+## Business Interpretation
+
+The model helps the business prioritize customers for retention campaigns. Instead of contacting every customer, the company can focus on customers with higher predicted churn probability.
+
+Possible retention actions:
+
+1. Offer discounts or loyalty benefits to high-risk month-to-month customers.
+2. Provide better onboarding and support for new customers with low tenure.
+3. Create personalized retention offers for customers with high monthly charges.
+4. Bundle tech support for customers who do not currently use support services.
+
+## How To Run
+
+Create a virtual environment:
 
 ```powershell
-py -3.11 -m venv .venv
+py -3.13 -m venv .venv
 ```
 
-Activate environment:
+Activate the environment:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
@@ -90,10 +165,16 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-Add the dataset file at:
+Add the dataset:
 
 ```text
 data/raw/customer_churn.csv
+```
+
+Check the dataset:
+
+```powershell
+python src/check_data.py
 ```
 
 Run EDA:
@@ -102,24 +183,30 @@ Run EDA:
 python src/eda.py
 ```
 
-Train model:
+Train and evaluate the model:
 
 ```powershell
 python src/train.py
 ```
 
-Run prediction:
+Run sample prediction:
 
 ```powershell
 python src/predict.py
 ```
 
+## Resume Bullets
+
+- Built a customer churn prediction model using Python, pandas, scikit-learn, and Logistic Regression to identify telecom customers likely to leave.
+- Created an end-to-end ML pipeline with data cleaning, preprocessing, one-hot encoding, feature scaling, model training, evaluation, and model persistence using joblib.
+- Evaluated the churn model using accuracy, precision, recall, F1-score, ROC-AUC, and confusion matrix, achieving 84.1% ROC-AUC and 78% recall for churned customers.
+- Generated EDA visuals and business insights showing that contract type, payment method, tenure, monthly charges, and tech support are important churn indicators.
+
 ## Future Improvements
 
-- Try Random Forest
-- Try Gradient Boosting
-- Tune hyperparameters
-- Tune prediction threshold
-- Build a Streamlit app
-- Deploy the model
+- Try Random Forest and Gradient Boosting models.
+- Tune hyperparameters using cross-validation.
+- Adjust the classification threshold to improve churn recall.
+- Add SHAP or feature importance explanations.
+- Build a simple Streamlit app for interactive churn prediction.
 

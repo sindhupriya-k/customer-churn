@@ -1,79 +1,38 @@
-# Customer Churn Prediction - Project Summary
+# Customer Churn Prediction - ML Project Summary
 
-## Problem Statement
+## Objective
 
-The goal of this project is to predict whether a customer is likely to churn based on customer account and service details.
-
-Churn means the customer leaves the company or stops using the service.
+Predict whether a telecom customer is likely to churn using machine learning.
 
 ## Dataset
 
-The project uses the Telco Customer Churn dataset.
+- Dataset: Telco Customer Churn
+- Rows: 7,043
+- Columns: 21
+- Target: Churn
+- Churn rate: 26.54%
 
-- Total rows: 7043
-- Total columns: 21
-- Target column: Churn
+## ML Workflow
 
-## Target Distribution
+1. Loaded and inspected the dataset.
+2. Converted `TotalCharges` to numeric.
+3. Split data into training and testing sets.
+4. Built preprocessing pipelines for numeric and categorical features.
+5. Trained Logistic Regression with balanced class weights.
+6. Evaluated the model with accuracy, precision, recall, F1-score, ROC-AUC, and confusion matrix.
+7. Saved the model with joblib.
+8. Created a sample prediction script.
 
-- No churn: 73.46%
-- Churn: 26.54%
+## Key Results
 
-This shows that the dataset is imbalanced.
+- Accuracy: 73.8%
+- ROC-AUC: 84.1%
+- Churn recall: 78%
 
-## Key EDA Insights
+## Business Value
 
-1. Month-to-month contract customers have the highest churn rate.
-2. Electronic check payment customers have the highest churn rate.
-3. Fiber optic customers show higher churn than DSL customers.
-4. Customers with shorter tenure are more likely to churn.
-5. Customers with higher monthly charges are more likely to churn.
-6. Customers without tech support are more likely to churn.
+The model helps identify customers who are likely to churn, allowing the business to prioritize retention campaigns and reduce customer loss.
 
-## Data Cleaning
+## Resume Positioning
 
-The `TotalCharges` column was originally read as text because it had blank values.
-
-I converted it into numeric using:
-
-```python
-pd.to_numeric(df["TotalCharges"], errors="coerce")
-
-
-
-
-
-Blank values became missing values and were handled in the preprocessing pipeline.
-
-Model Used
-The first model used was Logistic Regression.
-
-Reason:
-
-suitable for binary classification
-easy to explain
-good baseline model
-interview-friendly
-Preprocessing
-Numerical features:
-
-missing values filled using median
-values scaled using StandardScaler
-Categorical features:
-
-missing values filled using most frequent value
-categories converted using OneHotEncoder
-Evaluation Results
-Accuracy: 73.8%
-ROC-AUC: 84.1%
-Recall for churn class: 78%
-Business Interpretation
-The model is useful because it identifies many customers who are likely to churn. The company can use this to target risky customers with retention offers, discounts, support calls, or better service plans.
-
-Future Improvements
-Try Random Forest
-Try Gradient Boosting
-Tune hyperparameters
-Tune prediction threshold
-Build a Streamlit app
-Deploy the model
+This project is suitable for a fresher Data Analyst resume because it demonstrates Python, EDA, data preprocessing, model evaluation, business interpretation, and reproducible project structure.
