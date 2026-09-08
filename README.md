@@ -195,12 +195,6 @@ Run sample prediction:
 python src/predict.py
 ```
 
-## Resume Bullets
-
-- Built a customer churn prediction model using Python, pandas, scikit-learn, and Logistic Regression to identify telecom customers likely to leave.
-- Created an end-to-end ML pipeline with data cleaning, preprocessing, one-hot encoding, feature scaling, model training, evaluation, and model persistence using joblib.
-- Evaluated the churn model using accuracy, precision, recall, F1-score, ROC-AUC, and confusion matrix, achieving 84.1% ROC-AUC and 78% recall for churned customers.
-- Generated EDA visuals and business insights showing that contract type, payment method, tenure, monthly charges, and tech support are important churn indicators.
 
 ## Future Improvements
 
